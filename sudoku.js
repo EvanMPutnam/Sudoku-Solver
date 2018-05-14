@@ -249,6 +249,27 @@ submitButton.buttons = buttons;
 submitButton.innerText = "Solve Puzzle";
 //Event listenter to solve.
 submitButton.addEventListener("click", function(){
+
+  //Checks to see no invalid configs to begin with.
+  var inc = 0;
+  for (var x = 0; x < 9; x++) {
+    for (var y = 0; y < 9; y++) {
+      if (grid.grid[y][x].val != 0) {
+        //Have to swap to temp zero then swap back.
+        var tempV = grid.grid[y][x].val
+        grid.grid[y][x].val = 0;
+        var checkCon = grid.checkConflict(x, y, tempV);
+        grid.grid[y][x].val = tempV
+
+        if (checkCon == false) {
+          alert("Invalid configuration");
+          return;
+        }
+      }
+      inc += 1;
+    }
+  }
+
   var valid = grid.checkValid();
   if (!valid) {
     alert("No valid solution found")
